@@ -28,6 +28,10 @@ jobs:
         with:
           version: 'v3.12.0'
 
+      - name: Build chart dependencies
+        run: |
+          helm dependency build ${{ env.CHART_PATH }}
+
       - name: Lint Helm chart
         run: |
           helm lint ${{ env.CHART_PATH }}
@@ -84,8 +88,8 @@ jobs:
           sed -i "s/^version:.*/version: ${VERSION}/" ${{ env.CHART_PATH }}/Chart.yaml
           sed -i "s/^appVersion:.*/appVersion: \"${APP_VERSION}\"/" ${{ env.CHART_PATH }}/Chart.yaml
           
-          # Update image tag in values.yaml to match the Docker image version
-          sed -i "s/tag: \".*\"/tag: \"v${APP_VERSION}\"/" ${{ env.CHART_PATH }}/values.yaml
+          # Update image tag in values.yaml to match the Docker image version (without 'v' prefix)
+          sed -i "s/tag: \".*\"/tag: \"${APP_VERSION}\"/" ${{ env.CHART_PATH }}/values.yaml
 
       - name: Package Helm chart
         run: |

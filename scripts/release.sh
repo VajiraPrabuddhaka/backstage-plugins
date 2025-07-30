@@ -89,8 +89,8 @@ update_chart_version() {
         sed -i.bak "s/^version:.*/version: $version/" "$CHART_PATH/Chart.yaml"
         sed -i.bak "s/^appVersion:.*/appVersion: \"$version\"/" "$CHART_PATH/Chart.yaml"
         
-        # Update values.yaml image tag
-        sed -i.bak "s/tag: \".*\"/tag: \"v$version\"/" "$CHART_PATH/values.yaml"
+        # Update values.yaml image tag (without 'v' prefix)
+        sed -i.bak "s/tag: \".*\"/tag: \"$version\"/" "$CHART_PATH/values.yaml"
         
         # Remove backup files
         rm -f "$CHART_PATH/Chart.yaml.bak" "$CHART_PATH/values.yaml.bak"
@@ -113,7 +113,7 @@ create_git_tag() {
 
 - Update chart version to $version
 - Update appVersion to $version  
-- Update image tag to v$version"
+- Update image tag to $version"
         
         git tag -a "$tag" -m "Release $version"
         
