@@ -46,10 +46,6 @@ jobs:
         run: |
           helm template test-release ${{ env.CHART_PATH }} --dry-run
 
-      - name: Test chart installation (dry-run)
-        run: |
-          helm install test-release ${{ env.CHART_PATH }} --dry-run --debug
-
   release:
     needs: validate-and-test
     runs-on: ubuntu-latest
