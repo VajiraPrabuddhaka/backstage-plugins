@@ -8,6 +8,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 CHART_PATH="${ROOT_DIR}/charts/backstage-openchoreo"
+VERSION_FILE="${ROOT_DIR}/VERSION"
 
 # Colors for output
 RED='\033[0;31m'
@@ -74,26 +75,18 @@ check_main_branch() {
     fi
 }
 
-update_chart_version() {
+update_version_file() {
     local version=$1
     local dry_run=$2
     
-    log_info "Updating Chart.yaml version to $version"
+    log_info "Updating VERSION file to $version"
     
     if [[ "$dry_run" == "true" ]]; then
-        log_info "[DRY RUN] Would update version in $CHART_PATH/Chart.yaml"
-        log_info "[DRY RUN] Would update appVersion in $CHART_PATH/Chart.yaml"
-        log_info "[DRY RUN] Would update image tag in $CHART_PATH/values.yaml"
+        log_info "[DRY RUN] Would update VERSION file to $version"
     else
-        # Update Chart.yaml
-        sed -i.bak "s/^version:.*/version: $version/" "$CHART_PATH/Chart.yaml"
-        sed -i.bak "s/^appVersion:.*/appVersion: \"$version\"/" "$CHART_PATH/Chart.yaml"
-        
-        # Update values.yaml image tag (without 'v' prefix)
-        sed -i.bak "s/tag: \".*\"/tag: \"$version\"/" "$CHART_PATH/values.yaml"
-        
-        # Remove backup files
-        rm -f "$CHART_PATH/Chart.yaml.bak" "$CHART_PATH/values.yaml.bak"
+        # Update VERSION file
+        echo "$version" > "$VERSION_FILE"
+        log_info "VERSION file updated to $version"
     fi
 }
 
@@ -108,13 +101,6 @@ create_git_tag() {
         log_info "[DRY RUN] Would create git tag: $tag"
         log_info "[DRY RUN] Would push tag to origin"
     else
-        git add "$CHART_PATH/Chart.yaml" "$CHART_PATH/values.yaml"
-        git commit -m "Release version $version
-
-- Update chart version to $version
-- Update appVersion to $version  
-- Update image tag to $version"
-        
         git tag -a "$tag" -m "Release $version"
         
         log_info "Tag $tag created locally"
@@ -181,8 +167,8 @@ main() {
     
     log_info "Creating release for version $version"
     
-    # Update versions
-    update_chart_version "$version" "$dry_run"
+    # Update version
+    update_version_file "$version" "$dry_run"
     
     # Create git tag
     create_git_tag "$version" "$dry_run"
@@ -190,9 +176,8 @@ main() {
     if [[ "$dry_run" != "true" ]]; then
         log_info "Release $version prepared successfully!"
         log_info "Next steps:"
-        log_info "1. Review the changes: git show HEAD"
-        log_info "2. Push the tag: git push origin v$version"
-        log_info "3. Monitor GitHub Actions for Docker and Helm releases"
+        log_info "1. Push the tag: git push origin v$version"
+        log_info "2. Monitor GitHub Actions for Docker and Helm releases"
     fi
 }
 
