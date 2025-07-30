@@ -2,7 +2,7 @@ apiVersion: v2
 name: backstage-openchoreo
 description: A Helm chart for deploying Backstage with OpenChoreo plugins
 type: application
-version: 0.1.0
+version: 1.0.0
 appVersion: "1.0.0"
 home: https://github.com/wso2/backstage-plugins
 keywords:
