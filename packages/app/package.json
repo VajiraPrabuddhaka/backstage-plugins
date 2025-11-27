@@ -45,6 +45,7 @@
     "@openchoreo/backstage-design-system": "workspace:^",
     "@openchoreo/backstage-plugin": "^0.2.0",
     "@openchoreo/backstage-plugin-api": "^0.2.0",
+    "@roadiehq/backstage-plugin-argo-cd": "^2.11.0",
     "react": "^18.0.2",
     "react-dom": "^18.0.2",
     "react-router": "^6.3.0",

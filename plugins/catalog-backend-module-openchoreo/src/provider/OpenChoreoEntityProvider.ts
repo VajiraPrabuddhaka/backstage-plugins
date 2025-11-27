@@ -207,6 +207,7 @@ export class OpenChoreoEntityProvider implements EntityProvider {
           [CHOREO_ANNOTATIONS.NAMESPACE]: organization.namespace,
           [CHOREO_ANNOTATIONS.CREATED_AT]: organization.createdAt,
           [CHOREO_ANNOTATIONS.STATUS]: organization.status,
+          'argocd/app-name': 'demo-app',
         },
         labels: {
           [CHOREO_LABELS.MANAGED]: 'true',

@@ -52,4 +52,8 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 backend.add(import('@openchoreo/backstage-plugin-backend'));
 backend.add(import('@openchoreo/backstage-plugin-catalog-backend-module'));
 backend.add(import('@openchoreo/backstage-plugin-scaffolder-backend-module'));
+
+// Add the Argo CD backend plugin
+backend.add(import('@roadiehq/backstage-plugin-argo-cd-backend'));
+
 backend.start();

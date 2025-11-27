@@ -49,6 +49,11 @@ import {
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
 
+import {
+    EntityArgoCDOverviewCard,
+} from '@roadiehq/backstage-plugin-argo-cd';
+
+
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 
@@ -424,6 +429,9 @@ const domainPage = (
         <Grid item md={6}>
           <EntityHasSystemsCard variant="gridItem" />
         </Grid>
+        <Grid item md={6}>
+            <EntityArgoCDOverviewCard />
+        </Grid>
       </Grid>
     </EntityLayout.Route>
   </EntityLayout>
@@ -437,7 +445,6 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('user')} children={userPage} />
     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
-
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
 );

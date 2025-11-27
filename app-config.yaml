@@ -80,6 +80,16 @@ openchoreo:
     frequency: 30 # seconds between runs (default: 30)
     timeout: 120 # seconds for timeout (default: 120)
 
+argocd:
+  username: ${ARGOCD_USERNAME}
+  password: ${ARGOCD_PASSWORD}
+  appLocatorMethods:
+    - type: 'config'
+      instances:
+        - name: development
+          url: https://localhost:8085
+          skipTLSVerify: true
+
 catalog:
   import:
     entityFilename: catalog-info.yaml
