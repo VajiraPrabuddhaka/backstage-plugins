@@ -82,7 +82,10 @@ export function buildTreeNodes(
       if (readyCondition) {
         const condStatus = (readyCondition as any).status;
         if (condStatus === 'True') rootHealth = 'Healthy';
-        else if (condStatus === 'False') rootHealth = 'Degraded';
+        else if (condStatus === 'False') {
+          const condReason = (readyCondition as any).reason as string | undefined;
+          rootHealth = condReason === 'ResourcesProgressing' ? 'Progressing' : 'Degraded';
+        }
         else rootHealth = 'Progressing';
       }
     }

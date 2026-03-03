@@ -46,8 +46,11 @@ function getOverallHealth(
         const reason = (readyCondition as any).reason as string | undefined;
         if (condStatus === 'True')
           return { label: 'Healthy', status: 'Healthy', reason };
-        if (condStatus === 'False')
+        if (condStatus === 'False') {
+          if (reason === 'ResourcesProgressing')
+            return { label: 'Progressing', status: 'Progressing', reason };
           return { label: 'Degraded', status: 'Degraded', reason };
+        }
         return { label: 'Progressing', status: 'Progressing', reason };
       }
     }
